@@ -18,7 +18,7 @@ function App() {
 	const [result, setResult] = useState("");
 
 	const handleClick = () => {
-		axios.post('http://34.105.19.43:9090', {
+		axios.post('http://34.83.174.109:9090', {
 			input,
 			model
 		})
