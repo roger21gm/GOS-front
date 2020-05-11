@@ -4,7 +4,9 @@ import axios from 'axios';
 import AceEditor from "react-ace";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button, Jumbotron} from 'react-bootstrap';
+import { Ripple } from 'react-spinners-css';
+
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
@@ -17,7 +19,10 @@ function App() {
 
 	const [result, setResult] = useState("");
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	const handleClick = () => {
+		setIsLoading(true);
 		axios.post('http://34.83.174.109:9090', {
 			input,
 			model
@@ -27,6 +32,7 @@ function App() {
 					const a = res.data;
 					console.log(res.data);
 					setResult(a);
+					setIsLoading(false);
 				}
 			)
 	}
@@ -34,7 +40,14 @@ function App() {
 	return (
 		<>
 			<Container fluid style={{textAlign:'center'}}>
-				<h1>CSP2SAT COMPILER</h1>
+			<Jumbotron fluid>
+				<Container>
+					<h1>CSP2SAT COMPILER</h1>
+					<p>
+						Declarative language for modelling CSPs into SAT
+					</p>
+				</Container>
+			</Jumbotron>
 				<Row style={{margin:"50px 10px"}}>
 					<Col style={{textAlign:'center'}}>
 						<h3>MODEL</h3>
@@ -61,17 +74,19 @@ function App() {
 						/>
 					</Col>
 				</Row>
+				<Row className="justify-content-center">
+				{
+					!isLoading ? 
+						(<Button variant="outline-secondary" onClick={() => handleClick()}>Submit</Button>)
+						: <Ripple color="lightgray" />
+				}
+				</Row>
+				<Row>
+					<Col style={{margin:"0 5%"}}>
+						<div style={{ whiteSpace: 'pre-wrap', textAlign: 'left', border: '1px line'}}>{result}</div>
+					</Col>
+				</Row>
 			</Container>
-			<div className="App">
-
-				<input type="submit" onClick={() => handleClick()} value="Submit" />
-				<br /><br />
-				{<div style={{ whiteSpace: 'pre-wrap', textAlign: 'left' }}>{result}</div>}
-
-
-
-
-			</div>
 		</>
 	);
 }
