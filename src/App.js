@@ -42,7 +42,7 @@ function App() {
 			<Container fluid style={{textAlign:'center'}}>
 			<Jumbotron fluid>
 				<Container>
-					<h1>CSP2SAT COMPILER</h1>
+					<h1>CSP2SAT</h1>
 					<p>
 						Declarative language for modelling CSPs into SAT
 					</p>
