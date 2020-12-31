@@ -44,7 +44,8 @@ function App() {
 
 	const handleClick = () => {
 		setIsLoading(true);
-		axios.post('http://server.csp2sat.online:9090', {
+                
+		axios.post('http://server:9090', {
 			input,
 			model
 		})
