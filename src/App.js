@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
 import AceEditor from "react-ace";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -42,22 +41,27 @@ function App() {
 
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		setIsLoading(true);
-                
-		axios.post('http://server:9090', {
-			input,
-			model
-		})
-			.then(
-				res => {
-					const a = res.data;
-					console.log(res.data);
-					setResult(a.result);
-					setError(a.error);
-					setIsLoading(false);
-				}
-			)
+		console.log("UEEEE") 
+		
+		// Simple POST request with a JSON body using fetch
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ input, model })
+		};
+		fetch('/', requestOptions)
+			.then(function(res){ return res.json(); })
+			.then(function(res){
+				console.log(res);
+				setResult(res.result);
+				setError(res.error);
+			})
+			.finally( x => {
+				setIsLoading(false);
+			})
+		console.log("UEE2")
 	}
 
 	return (

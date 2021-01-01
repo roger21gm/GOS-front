@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    stdin_open: true
+    ports:
+      - "80:3000"
+    networks:
+      - gos-net
+  server:
+    build: ../CSP2SAT_server 
+    ports:
+      - "9090:9090"
+    networks:
+      - gos-net
+
+networks:
+  gos-net:
