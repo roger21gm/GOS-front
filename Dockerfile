@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:13.12.0-alpine as build
 
 # set working directory
 WORKDIR /app
@@ -9,10 +9,21 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY package.json ./
-RUN npm install
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
 # add app
 COPY . ./
 
-# start app
-CMD ["npm", "start"]    
+# build app
+RUN npm run build
+
+
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+
+ENV gosserver=server:9090
+
+CMD ["nginx", "-g", "daemon off;"]
