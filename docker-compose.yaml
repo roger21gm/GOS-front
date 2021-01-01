@@ -1,14 +1,14 @@
 version: "3.9"
 services:
   web:
-    build: .
+    image: roger21gm/gos-front
     stdin_open: true
     ports:
       - "80:3000"
     networks:
       - gos-net
   server:
-    build: ../CSP2SAT_server 
+    image: roger21gm/gos-server
     ports:
       - "9090:9090"
     networks:
