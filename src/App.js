@@ -29,12 +29,29 @@ const exemples = {
 	}
 }
 
+const solvers = {
+	"openwbo" : {
+		"name" : "OpenWBO",
+		"solver" : "openwbo"
+	},
+	"minisat" : {
+		"name" : "MiniSat",
+		"solver" : "minisat"
+	},
+	"glucose" : {
+		"name" : "Glucose",
+		"solver" : "glucose"
+	}
+}
 
 function App() {
 
 	const [input, setInput] = useState(exemples.sudoku.params);
 	const [model, setModel] = useState(exemples.sudoku.model);
 	const [exampleName, setExampleName] = useState(exemples.sudoku.name);
+
+	const [solverName, setSolverName] = useState(solvers.openwbo.name);
+	const [solver, setSolver] = useState(solvers.openwbo.solver);
  
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
@@ -49,7 +66,7 @@ function App() {
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ input, model })
+			body: JSON.stringify({ input, model, solver })
 		};
 		fetch('/', requestOptions)
 			.then(function(res){ return res.json(); })
@@ -106,6 +123,13 @@ function App() {
 							editorProps={{ $blockScrolling: true }}
 						/>
 					</Col>
+				</Row>
+				<Row className="justify-content-center">
+					<DropdownButton style={{paddingTop: "30px"}} variant="secondary" title={solverName}>
+						<Dropdown.Item onClick={() => {setSolver(solvers.openwbo.solver); setSolverName(solvers.openwbo.name)}}>{solvers.openwbo.name}</Dropdown.Item>
+						<Dropdown.Item onClick={() => {setSolver(solvers.minisat.solver); setSolverName(solvers.minisat.name)}}>{solvers.minisat.name}</Dropdown.Item>
+						<Dropdown.Item onClick={() => {setSolver(solvers.glucose.solver); setSolverName(solvers.glucose.name)}}>{solvers.glucose.name}</Dropdown.Item>
+					</DropdownButton>
 				</Row>
 				<Row className="justify-content-center">
 				{
